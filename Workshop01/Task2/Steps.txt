@@ -10,4 +10,4 @@ docker volume inspect myvol
 
 docker pull stackupiss/northwind-app:v1
 
-docker run -d -p 8080:3000 -e DB_HOST=172.19.0.2 -e DB_USER=root -e DB_PASSWORD=changeit --network mynet --name myapp stackupiss/northwind-app:v1
+docker run -d -p 8080:3000 -e DB_HOST=mydb -e DB_USER=root -e DB_PASSWORD=changeit --network mynet --name myapp stackupiss/northwind-app:v1
