@@ -1,0 +1,49 @@
+apiVersion: autoscaling/v2beta2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: v1-bgg-scaler
+spec: 
+  minReplicas: 1
+  maxReplicas: 5
+  metrics: 
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 50
+    - type: Resource
+      resource:
+        name: memory
+        target:
+          type: Utilization
+          averageUtilization: 50
+  scaleTargetRef:
+    apiVersion: apps/v1 
+    kind: Deployment
+    name: v1-bggapp-deploy
+---
+apiVersion: autoscaling/v2beta2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: v2-bgg-scaler
+spec: 
+  minReplicas: 1
+  maxReplicas: 5
+  metrics: 
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 50
+    - type: Resource
+      resource:
+        name: memory
+        target:
+          type: Utilization
+          averageUtilization: 50
+  scaleTargetRef:
+    apiVersion: apps/v1 
+    kind: Deployment
+    name: v2-bggapp-deploy
