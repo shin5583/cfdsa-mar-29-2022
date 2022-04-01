@@ -1,0 +1,30 @@
+---
+apiVersion: v1 
+kind: Secret
+metadata: 
+  name: wp-db-cluster-secret
+  labels:
+    name: wp-db-cluster-secret
+type: Opaque
+data:
+  ROOT_PASSWORD: cm9vdHJvb3Q=
+
+---
+apiVersion: mysql.presslabs.org/v1alpha1
+kind: MysqlCluster
+metadata: 
+  name: wp-db-cluster
+  labels: 
+    name: wp-db-cluster
+spec:
+  replicas: 3
+  secretName: wp-db-cluster-secret
+  mysqlVersion: "8.0"
+  volumeSpec:
+    persistentVolumeClaim:
+      accessModes:
+        - ReadWriteOnce
+      resources:
+        requests:
+          storage: 1Gi
+      storageClassName: do-block-storage

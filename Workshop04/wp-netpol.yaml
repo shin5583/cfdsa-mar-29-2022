@@ -1,0 +1,60 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: wp-app-netpol-deny-all
+  labels: 
+    name: wp-app-netpol-deny-all
+spec:
+  podSelector:
+    matchLabels:
+      name: wp-app-pod
+  policyTypes:
+  - Egress
+
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: wp-app-netpol-allow-egress-db
+  labels: 
+    name: wp-app-netpol-allow-egress-db
+spec:
+  podSelector:
+    matchLabels:
+      name: wp-app-pod
+  policyTypes:
+  - Egress
+  egress:
+  - ports:  
+    - port: 3306
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: wp-db-cluster-netpol-deny-all
+  labels: 
+    name: wp-db-cluster-netpol-deny-all
+spec:
+  podSelector:
+    matchLabels:
+      name: wp-db-cluster
+  policyTypes:
+  - Ingress
+  - Egress
+
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: wp-db-cluster-netpol-allow-ingress-app
+  labels: 
+    name: wp-db-cluster-netpol-allow-ingress-app
+  podSelector:
+    matchLabels:
+      name: wp-db-cluster
+  policyTypes:
+  - Ingress
+  ingress:
+  - ports:  
+      - port: 3306
